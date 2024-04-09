@@ -192,7 +192,7 @@ class AnnA:
         autocompletion enabled (use `<TAB>`). Default is
         `None`.
 
-    --reference_order REF_ORDER
+    --reference_order: str REF_ORDER
         either "relative_overdueness" or "lowest_interval" or
         "order_added" or "LIRO_mix". It is the reference used
         to sort the card before adjusting them using the
@@ -213,7 +213,7 @@ class AnnA:
         them and increase their likelyhood of being part of
         the Optideck.
 
-    --task TASK
+    --task TASK: str
         can be 'filter_review_cards',
                 'bury_excess_learning_cards',
                 'bury_excess_review_cards',
