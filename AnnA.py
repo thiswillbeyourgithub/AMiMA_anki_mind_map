@@ -230,6 +230,11 @@ class AnnA:
         Default is `filter_review_cards`.
                         
 
+    --bury_after_filter: bool, default False
+        if --task is set to "filter_review_cards" and this is True: also
+        bury the cards that were not filtered. This can be handy when dealing
+        with daily deck limits and schedulers.
+
     --target_deck_size TARGET_SIZE
         indicates the size of the filtered deck to create. Can
         be the number of due cards like "100", a proportion of
@@ -538,6 +543,7 @@ class AnnA:
                  # any of "filter_review_cards",
                  # "bury_excess_review_cards", "bury_excess_learning_cards"
                  # "just_add_KNN", "just_plot"
+                 bury_after_filter: bool = False,
                  bypass_task_just_return=False,
                  target_deck_size="deck_config",
                  # format: 80%, "all", "deck_config"
@@ -748,6 +754,10 @@ class AnnA:
         assert dist_metric.lower() in ["cosine", "rbf", "euclidean"], (
             "Invalid 'dist_metric'")
         self.dist_metric = dist_metric.lower()
+
+        if bury_after_filter:
+            assert task == "filter_review_cards", "Can't set bury_after_filter if task ir not filter_review_cards"
+        self.bury_after_filter = bury_after_filter
 
         assert task in ["filter_review_cards",
                         "bury_excess_learning_cards",
@@ -3425,6 +3435,13 @@ class AnnA:
                             reschedule=True,
                             sortOrder=5,
                             createEmpty=False)
+
+            if self.bury_after_filter:
+                to_bury = [x for x in self.due_cards if x not in self.opti_rev_order]
+                red("Also burying the non filtered cards because bury_after_filter is True")
+                if to_bury:
+                    self._call_anki(action="bury", cards=to_bury)
+                red("Done burying {len(to_bury)} cards")
 
             yel("Checking that the content of filtered deck name is the "
                 "same as the order inferred by AnnA...", end="")
