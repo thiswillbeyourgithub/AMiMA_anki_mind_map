@@ -33,7 +33,7 @@ import fire
 import joblib
 import pandas as pd
 import numpy as np
-import Levenshtein as lev
+from rapidfuzz.fuzz import ratio as levratio
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from tokenizers import Tokenizer
@@ -1713,7 +1713,7 @@ class AnnA:
                     fields_to_keep = field_dic[target_model[0]]
                 elif len(target_model) > 1:
                     target_model = sorted(
-                        target_model, key=lambda x: lev.ratio(
+                        target_model, key=lambda x: levratio(
                             x.lower(), user_model.lower()))
                     fields_to_keep = field_dic[target_model[0]]
                     notifications.append(
@@ -1985,7 +1985,7 @@ class AnnA:
                         whi(mod)
                         best_models = sorted(
                             list(mod2mid.keys()),
-                            key=lambda x: lev.ratio(x.lower(), mod.lower()))
+                            key=lambda x: levratio(x.lower(), mod.lower()))
                         for m in best_models:
                             if m in self.field_dic:
                                 ret = get_index_of_fields(m)

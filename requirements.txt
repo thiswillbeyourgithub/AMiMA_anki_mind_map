@@ -1,7 +1,7 @@
 plyer >= 2.1.0  # for notification, can help to install dbus-python too
 pyfiglet >= 1.0.2   # for banner
 prompt_toolkit >= 3.0.43  # for autocomplete prompt
-python_Levenshtein >= 0.25.0  # to correct for field mapping and note type spelling errors
+rapidfuzz >= 3.6.1  # to correct for field mapping and note type spelling errors
 beepy>=1.0.7  # make a beeping sound
 ankipandas>=0.3.15  # to load the anki collection
 ftfy>=6.1.1
