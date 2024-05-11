@@ -2168,14 +2168,14 @@ class AnnA:
                 def hasher(text):
                     return hashlib.sha256(text.encode()).hexdigest()[:10]
 
-                def retrieve_cache(path):
+                def retrieve_cache(path: str) -> np.ndarray:
                     Path(path).touch()  # this way we can see what files are very old and should be removed
                     with open(path, "rb") as f:
                         return pickle.load(f)
 
-                def add_to_cache(row, path):
+                def add_to_cache(row: np.ndarray, path: str) -> None:
                     with open(path, "wb") as f:
-                        return pickle.dump(row, f)
+                        pickle.dump(row, f)
 
                 memhasher = self.memoize(hasher)
                 memretr = self.memoize(retrieve_cache)
