@@ -2225,7 +2225,15 @@ class AnnA:
                     if nid in cache_nid_fing:
                         if fingerprint in cache_nid_fing[nid]:
                             filename = f"{nid}_{fingerprint}.pickle"
-                            t_vec[i, :] = memretr(str(vec_cache / filename))
+                            try:
+                                t_vec[i, :] = memretr(str(vec_cache / filename))
+                            except Exception as err:
+                                red(f"Error when retrieving cache so deleting file. path='{vec_cache/filename}';error={err}")
+                                Path(vec_cache/filename).unlink(missing_ok=False)
+                                if len(cache_nid_fing[nid]) == 1:
+                                    del cache_nid_fing[nid]
+                                else:
+                                    cache_nid_fing[nid] = [fp for fp in cache_nid_fing[nid] if fp != fingerprint]
 
                 # get embeddings for missing rows
                 done_rows = np.where(~np.isclose(np.sum(t_vec, axis=1), 0.0))[0]
