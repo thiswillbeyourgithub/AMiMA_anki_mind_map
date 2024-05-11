@@ -2195,7 +2195,7 @@ class AnnA:
                 vec_cache.mkdir(exist_ok=True)
                 vec_cache = vec_cache / "embeddings_cache"
                 vec_cache.mkdir(exist_ok=True)
-                vec_cache = vec_cache / self.embed_model
+                vec_cache = vec_cache / self.embed_model.replace("/", "_")
                 vec_cache.mkdir(exist_ok=True)
 
                 # get what is in cache in the form "NID_FINGERPRINT.pickle"
