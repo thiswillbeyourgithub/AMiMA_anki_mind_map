@@ -2203,6 +2203,9 @@ class AnnA:
                 whi(f"Number of entries in cache: {len(filenames)}")
                 cache_nid_fing = {}
                 for f in filenames:
+                    if f.endswith(".temp"):  # delete failed cache
+                        Path(f).unlink()
+                        continue
                     f = f.replace(".pickle", "")
                     nid, fingerprint = f.split("_")
                     nid = int(nid)
@@ -2258,7 +2261,10 @@ class AnnA:
                         nid = df.loc[ind, "note"]
                         fingerprint = df.loc[ind, "sha256"]
                         filename = f"{nid}_{fingerprint}.pickle"
-                        add_to_cache(t_vec[missing_rows[i], :], str(vec_cache / filename))
+                        temp_path = str(vec_cache / filename) + ".temp"
+                        add_to_cache(t_vec[missing_rows[i], :], temp_path)
+                        assert Path(temp_path).exists()
+                        Path(temp_path).rename(vec_cache / filename)
 
                 assert not np.isclose(t_vec.sum(), 0), "t_vec is still 0"
                 assert t_vec.shape[0] == len(np.where(~np.isclose(np.sum(t_vec, axis=1), 0.0))[0]), "t_vec invalid"
