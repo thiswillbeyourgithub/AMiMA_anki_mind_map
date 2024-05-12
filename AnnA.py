@@ -584,7 +584,8 @@ class AnnA:
                  # vectorization:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
-                 embed_model="paraphrase-multilingual-mpnet-base-v2",
+                 embed_model="BAAI/bge-m3",
+                 # embed_model="paraphrase-multilingual-mpnet-base-v2",
                  # left for legacy reason
                  ndim_reduc="auto",
                  TFIDF_tokenize=True,
