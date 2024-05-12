@@ -70,11 +70,13 @@ signal.signal(signal.SIGINT, (lambda signal, frame: breakpoint()))
 
 # adds logger file, restrict it to X lines
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(funcName)s(%(lineno)d) %(message)s')
+if Path("logs.txt.4").exists():
+    Path("logs.txt.4").unlink()
 file_handler = handlers.RotatingFileHandler(
         "logs.txt",
         mode='a',
         maxBytes=1000000,
-        backupCount=3,
+        backupCount=4,
         encoding=None,
         delay=0,
         )
