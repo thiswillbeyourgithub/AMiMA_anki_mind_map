@@ -62,6 +62,9 @@ from utils.greek import greek_alphabet_mapping
 # avoids annoying warning
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
+# avoid crash caused by wrong protobuffer version
+# os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 # makes the script interuptible, resume it using c+enter
 signal.signal(signal.SIGINT, (lambda signal, frame: breakpoint()))
 
