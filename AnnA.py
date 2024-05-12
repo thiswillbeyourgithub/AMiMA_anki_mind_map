@@ -343,9 +343,9 @@ class AnnA:
         Default to `False`.
 
     --log_level LOG_LEVEL
-        can be any number between 0 and 2. Default is `0` to
-        only print errors. 1 means print also useful
-        information and >=2 means print everything. Messages
+        can be any number between 0 and 2. Default is `3`.
+        0 to only print errors. 1 to print also useful
+        information and >=2 to print everything. Messages
         are color coded so it might be better to leave it at 3
         and just focus on colors.
 
@@ -564,7 +564,7 @@ class AnnA:
                  highjack_due_query=None,
                  highjack_rated_query=None,
                  low_power_mode=False,
-                 log_level=0,  # 0, 1, 2
+                 log_level=3,  # 0, 1, 2
                  replace_greek=True,
                  keep_OCR=True,
                  append_tags=False,
