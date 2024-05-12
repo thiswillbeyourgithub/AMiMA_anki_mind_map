@@ -87,7 +87,6 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 log.addHandler(file_handler)
 
-
 def set_global_logging_level(level=logging.ERROR, prefices=[""]):
     """
     To control logging level for various modules used in the application:
@@ -97,7 +96,6 @@ def set_global_logging_level(level=logging.ERROR, prefices=[""]):
     for name in logging.root.manager.loggerDict:
         if re.search(prefix_re, name):
             logging.getLogger(name).setLevel(level)
-
 
 colors = {
         "red": "\033[91m",
@@ -141,6 +139,7 @@ def get_coloured_logger(color_asked: str) -> Callable:
 whi = get_coloured_logger("white")
 yel = get_coloured_logger("yellow")
 red = get_coloured_logger("red")
+
 
 set_global_logging_level(logging.ERROR,
                          ["transformers", "nlp", "torch",
