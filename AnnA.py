@@ -2147,12 +2147,14 @@ class AnnA:
 
 
                     vectors = model.encode(
-                            sentences=sentences + add_sent,
-                            show_progress_bar=True if len(sentences) > 1 else False,
-                            output_value="sentence_embedding",
-                            convert_to_numpy=True,
-                            normalize_embeddings=False,
-                            )
+                        sentences=sentences + add_sent,
+                        show_progress_bar=True if len(sentences) > 1 else False,
+                        output_value="sentence_embedding",
+                        convert_to_numpy=True,
+                        normalize_embeddings=False,
+                        batch_size=1,
+                        precision="int8",  # use quantization
+                        )
 
                     if add_sent:
                         # at the position of the original sentence (not split)
