@@ -2163,20 +2163,30 @@ class AnnA:
                         assert sum(sent_check + addsent_check) == 0, (
                             f"The rolling average failed apparently:\n{sent_check}\n{addsent_check}")
 
-
-                    if torch.cuda.is_available():
-                        # https://stackoverflow.com/questions/73747731/runtimeerror-cuda-out-of-memory-how-can-i-set-max-split-size-mb
-                        torch.cuda.empty_cache()
-                    vectors = model.encode(
-                        sentences=sentences + add_sent,
-                        show_progress_bar=True if len(sentences) > 1 else False,
-                        output_value="sentence_embedding",
-                        convert_to_numpy=True,
-                        normalize_embeddings=False,
-                        batch_size=1,
-                        precision=self.sentencetransformers_quantization,
-                        prompt=self.sentencetransformers_prompt,
-                        )
+                    todo = sentences + add_sent
+                    vectors = None
+                    batch_size = 1000
+                    for batch_id in tqdm(range(0, len(todo), batch_size), desc="vectorizing in batch"):
+                        batch = todo[batch_id: batch_id + batch_size]
+                        if torch.cuda.is_available():
+                            # https://stackoverflow.com/questions/73747731/runtimeerror-cuda-out-of-memory-how-can-i-set-max-split-size-mb
+                            torch.cuda.empty_cache()
+                        batch_vec = model.encode(
+                            sentences=batch,
+                            show_progress_bar=True if len(sentences) > 1 else False,
+                            output_value="sentence_embedding",
+                            convert_to_numpy=True,
+                            normalize_embeddings=False,
+                            batch_size=1,
+                            precision=self.sentencetransformers_quantization,
+                            prompt=self.sentencetransformers_prompt,
+                            )
+                        if vectors is None:
+                            vectors = batch_vec
+                        else:
+                            vectors = np.vstack((vectors, batch_vec))
+                            del batch_vec
+                    assert vectors.shape[0] == len(todo)
 
                     if add_sent:
                         # at the position of the original sentence (not split)
