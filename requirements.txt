@@ -19,7 +19,7 @@ tqdm >= 4.65.0
 nltk >= 3.8.1
 tokenizers >= 0.13.2
 transformers >= 4.37.2
-sentence_transformers >= 2.3.1
+sentence_transformers >= 2.7.0
 
 # 2D plot
 matplotlib>=3.7.1
