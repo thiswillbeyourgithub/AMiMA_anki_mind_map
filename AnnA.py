@@ -426,6 +426,9 @@ class AnnA:
     --sentencetransformers_quantization: str, default "uint8"
         None to use float32, either int8, uint8, binary, ubinary.
 
+    --sentencetransformers_prompt: str, default "Specific topic of this anki flashcard: "
+        Prompt to use for the sentence transformers.
+
     --sentencetransformers_device
         either "cpu" or "gpu"/"cuda". None to guess. Default to None.
 
@@ -588,6 +591,7 @@ class AnnA:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
                  sentencetransformers_quantization="uint8",
+                 sentencetransformers_prompt="Specific topic of this anki flashcard: ",
                  embed_model="BAAI/bge-m3",
                  # embed_model="paraphrase-multilingual-mpnet-base-v2",
                  # left for legacy reason
@@ -733,6 +737,8 @@ class AnnA:
 
         assert sentencetransformers_quantization in [None, "float32", "int8", "uint8", "binary", "ubinary"], "Unexpected value for sentencetransformers_quantization"
         self.sentencetransformers_quantization = sentencetransformers_quantization
+
+        self.sentencetransformers_prompt = sentencetransformers_prompt
 
         self.embed_model = embed_model
 
@@ -2161,6 +2167,7 @@ class AnnA:
                         normalize_embeddings=False,
                         batch_size=1,
                         precision=self.sentencetransformers_quantization,
+                        prompt=self.sentencetransformers_prompt,
                         )
 
                     if add_sent:
@@ -2209,7 +2216,9 @@ class AnnA:
                 vec_cache.mkdir(exist_ok=True)
                 vec_cache = vec_cache / "embeddings_cache"
                 vec_cache.mkdir(exist_ok=True)
-                cache_name = f"{self.embed_model}_Q{self.sentencetransformers_quantization}".replace(" ", "_").replace("/", "_")
+                prompt_hash = hasher(self.sentencetransformers_prompt)
+                cache_name = f"{self.embed_model}_Q{self.sentencetransformers_quantization}_{prompt_hash}"
+                cache_name = cache_name.replace(" ", "_").replace("/", "_")
                 vec_cache = vec_cache / (cache_name)
                 vec_cache.mkdir(exist_ok=True)
 
