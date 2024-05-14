@@ -38,6 +38,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from tokenizers import Tokenizer
 from sentence_transformers import SentenceTransformer
+import torch
 import ftfy
 
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -61,6 +62,10 @@ from utils.greek import greek_alphabet_mapping
 
 # avoids annoying warning
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
+
+# avoid out of memory error
+# https://stackoverflow.com/questions/73747731/runtimeerror-cuda-out-of-memory-how-can-i-set-max-split-size-mb
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = "max_split_size_mb:256"
 
 # avoid crash caused by wrong protobuffer version
 # os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
@@ -2159,6 +2164,9 @@ class AnnA:
                             f"The rolling average failed apparently:\n{sent_check}\n{addsent_check}")
 
 
+                    if torch.cuda.is_available():
+                        # https://stackoverflow.com/questions/73747731/runtimeerror-cuda-out-of-memory-how-can-i-set-max-split-size-mb
+                        torch.cuda.empty_cache()
                     vectors = model.encode(
                         sentences=sentences + add_sent,
                         show_progress_bar=True if len(sentences) > 1 else False,
