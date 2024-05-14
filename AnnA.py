@@ -423,6 +423,9 @@ class AnnA:
         ignore stopwords and any TFIDF arguments used.
         Default to 'embeddings'.
 
+    --sentencetransformers_quantization: str, default "uint8"
+        None to use float32, either int8, uint8, binary, ubinary.
+
     --sentencetransformers_device
         either "cpu" or "gpu"/"cuda". None to guess. Default to None.
 
@@ -584,6 +587,7 @@ class AnnA:
                  # vectorization:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
+                 sentencetransformers_quantization="uint8",
                  embed_model="BAAI/bge-m3",
                  # embed_model="paraphrase-multilingual-mpnet-base-v2",
                  # left for legacy reason
@@ -726,6 +730,9 @@ class AnnA:
 
         assert sentencetransformers_device in [None, "cpu", "gpu", "cuda"], "Unexpected value for sentencetransformers_device"
         self.sentencetransformers_device = sentencetransformers_device
+
+        assert sentencetransformers_quantization in [None, "float32", "int8", "uint8", "binary", "ubinary"], "Unexpected value for sentencetransformers_quantization"
+        self.sentencetransformers_quantization = sentencetransformers_quantization
 
         self.embed_model = embed_model
 
@@ -2153,7 +2160,7 @@ class AnnA:
                         convert_to_numpy=True,
                         normalize_embeddings=False,
                         batch_size=1,
-                        precision="int8",  # use quantization
+                        precision=self.sentencetransformers_quantization,
                         )
 
                     if add_sent:
@@ -2202,7 +2209,8 @@ class AnnA:
                 vec_cache.mkdir(exist_ok=True)
                 vec_cache = vec_cache / "embeddings_cache"
                 vec_cache.mkdir(exist_ok=True)
-                vec_cache = vec_cache / self.embed_model.replace("/", "_")
+                cache_name = f"{self.embed_model}_Q{self.sentencetransformers_quantization}".replace(" ", "_").replace("/", "_")
+                vec_cache = vec_cache / (cache_name)
                 vec_cache.mkdir(exist_ok=True)
 
                 # get what is in cache in the form "NID_FINGERPRINT.pickle"
