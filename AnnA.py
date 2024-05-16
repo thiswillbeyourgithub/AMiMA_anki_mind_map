@@ -2304,6 +2304,7 @@ class AnnA:
                         fingerprint = df.loc[ind, "sha256"]
                         filename = f"{nid}_{fingerprint}.pickle"
                         temp_path = str(vec_cache / filename) + ".temp"
+                        assert np.abs(t_vec[missing_rows[i]].squeeze()).sum() != 0, f"Vector number {i} is full of zeros"
                         add_to_cache(t_vec[missing_rows[i], :], temp_path)
                         assert Path(temp_path).exists()
                         Path(temp_path).rename(vec_cache / filename)
