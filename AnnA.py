@@ -2272,7 +2272,7 @@ class AnnA:
                             filename = f"{nid}_{fingerprint}.pickle"
                             try:
                                 t_vec[i, :] = memretr(str(vec_cache / filename))
-                                assert np.abs(t_vec[i, :].squeeze()).sum() != 0, f"Vector number {i} is full of zeros (path: {filename})"
+                                assert np.abs(t_vec[i, :].squeeze()).sum() != 0, f"Vector number {i} is full of zeros (path: {filename}"
                             except Exception as err:
                                 red(f"Error when retrieving cache so deleting file. path='{vec_cache/filename}';error={err}")
                                 Path(vec_cache/filename).unlink(missing_ok=False)
