@@ -428,7 +428,7 @@ class AnnA:
         ignore stopwords and any TFIDF arguments used.
         Default to 'embeddings'.
 
-    --sentencetransformers_quantization: str, default "uint8"
+    --sentencetransformers_quantization: str, default "float32"
         None to use float32, either int8, uint8, binary, ubinary.
 
     --sentencetransformers_prompt: str, default "Specific topic of this anki flashcard: "
@@ -595,7 +595,7 @@ class AnnA:
                  # vectorization:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
-                 sentencetransformers_quantization="uint8",
+                 sentencetransformers_quantization="float32",
                  sentencetransformers_prompt="Specific topic of this anki flashcard: ",
                  embed_model="BAAI/bge-m3",
                  # embed_model="paraphrase-multilingual-mpnet-base-v2",
