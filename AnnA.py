@@ -29,6 +29,7 @@ from prompt_toolkit.completion import WordCompleter
 from plyer import notification
 from typing import Callable
 import fire
+from platformdirs import user_cache_dir
 
 import joblib
 import pandas as pd
@@ -876,10 +877,12 @@ class AnnA:
             "Invalid type for 'resort_split'")
         self.resort_split = resort_split
 
-        # initialize joblib caching
-        # self.mem = joblib.Memory("./.cache", mmap_mode="r", verbose=0)
+        assert Path(user_cache_dir()).exists(), f"User cache dir not found: '{user_cache_dir()}'"
+        self.cache_dir = Path(user_cache_dir()) / "AnnA"
+        self.cache_dir.mkdir(exist_ok=True)
 
         # additional processing of arguments #################################
+
 
         # load or ask for deckname
         self.deckname = self._check_deckname(deckname)
@@ -1948,10 +1951,9 @@ class AnnA:
                          "cancel now. Waiting 10s for you to see this "
                          "message before proceeding.")
                     time.sleep(1)
-                Path.mkdir(Path(".cache"), exist_ok=True)
                 name = f"{self.profile_name}_{self.deckname}".replace(" ", "_")
                 temp_db = shutil.copy(
-                    original_db, f"./.cache/{name.replace('/', '_')}")
+                    original_db, f"{str(self.cache_dir.absolute())}/{name.replace('/', '_')}")
                 col = akp.Collection(path=temp_db)
 
                 # keep only unsuspended cards from the right deck
@@ -2230,9 +2232,7 @@ class AnnA:
                             ), dtype=float)
 
                 # check existence of embeddings cache
-                vec_cache = Path(".cache")
-                vec_cache.mkdir(exist_ok=True)
-                vec_cache = vec_cache / "embeddings_cache"
+                vec_cache = self.cache_dir / "embeddings_cache"
                 vec_cache.mkdir(exist_ok=True)
                 prompt_hash = hasher(self.sentencetransformers_prompt)
                 cache_name = f"{self.embed_model}_Q{self.sentencetransformers_quantization}_{prompt_hash}"
