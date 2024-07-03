@@ -3415,7 +3415,6 @@ class AnnA:
         if self.filtered_deck_name_template is not None:
             filtered_deck_name = str(
                 self.filtered_deck_name_template + f" - {self.deckname}")
-            filtered_deck_name = filtered_deck_name.replace("::", "_")
         else:
             if self.filtered_deck_at_top_level:
                 top_lvl_deckname = self.deckname.split("::")[-1]
