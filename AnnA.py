@@ -30,6 +30,7 @@ from plyer import notification
 from typing import Callable
 import fire
 from platformdirs import user_cache_dir
+from py_ankiconnect import PyAnkiconnect
 
 import joblib
 import pandas as pd
@@ -60,6 +61,8 @@ import ankipandas as akp
 import shutil
 
 from utils.greek import greek_alphabet_mapping
+
+akc = PyAnkiconnect(host="http://localhost", port=8775)
 
 # avoids annoying warning
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
@@ -1152,43 +1155,17 @@ class AnnA:
     def _call_anki(self, action, **params):
         """ bridge between local python libraries and AnnA Companion addon
         (a fork from anki-connect) """
-        def request_wrapper(action, **params):
-            return {'action': action, 'params': params, 'version': 6}
-
-        requestJson = json.dumps(request_wrapper(action, **params)
-                                 ).encode('utf-8')
-
         # otherwise beep cannot be used in a classmethod and exception fail:
         global beep
         if "beep" not in globals().keys():
             def beep(x):
                 return beepy.beep(f"(fallback beepy){x}")
                 #pass
-
         try:
-            response = json.load(urllib.request.urlopen(
-                urllib.request.Request(
-                    'http://localhost:8775',
-                    requestJson)))
-        except (ConnectionRefusedError, urllib.error.URLError) as e:
-            beep(f"{str(e)}: is Anki open and 'AnnA Companion addon' "
-                 "enabled? Firewall issue?")
-            raise Exception(f"{str(e)}: is Anki open and 'AnnA Companion "
-                            "addon' enabled? Firewall issue?")
-
-        if len(response) != 2:
-            beep('response has an unexpected number of fields')
-            raise Exception('response has an unexpected number of fields')
-        if 'error' not in response:
-            beep('response is missing required error field')
-            raise Exception('response is missing required error field')
-        if 'result' not in response:
-            beep('response is missing required result field')
-            raise Exception('response is missing required result field')
-        if response['error'] is not None:
-            beep(response['error'])
-            raise Exception(response['error'])
-        return response['result']
+            return akc(action, **params)
+        except Exception as err:
+            beep(err)
+            raise
 
 
     def _common_init(self):
