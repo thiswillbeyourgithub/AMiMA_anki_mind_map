@@ -1253,7 +1253,7 @@ class AnnA:
         decklist = self._call_anki(action="deckNames") + ["*"]
         if deckname is not None:
             if deckname not in decklist:
-                beep("Couldn't find this deck.")
+                beep(f"Couldn't find deck '{deckname}'")
                 deckname = None
         if deckname is None:
             auto_complete = WordCompleter(decklist,
