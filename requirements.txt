@@ -4,6 +4,7 @@ prompt_toolkit >= 3.0.43  # for autocomplete prompt
 rapidfuzz >= 3.6.1  # to correct for field mapping and note type spelling errors
 beepy>=1.0.7  # make a beeping sound
 ankipandas>=0.3.15  # to load the anki collection
+py_ankiconnect  # DIY to talk to ankiconnect
 ftfy>=6.1.1
 fire>=0.5.0
 platformdirs >= 4.2.2
