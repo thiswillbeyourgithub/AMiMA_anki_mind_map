@@ -62,7 +62,7 @@ import shutil
 
 from utils.greek import greek_alphabet_mapping
 
-akc = PyAnkiconnect(host="http://localhost", port=8775)
+akc = PyAnkiconnect(default_host="http://localhost", default_port=8775)
 
 # avoids annoying warning
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
