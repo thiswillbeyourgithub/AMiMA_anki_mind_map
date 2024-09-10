@@ -241,7 +241,7 @@ class AnnA:
             or create a 2D plot using BERTopic
             or create the 2D plot using BERTopic then add the topics as tags to the cards
         Default is `filter_review_cards`.
-                        
+
 
     --bury_after_filter: bool, default False
         if --task is set to "filter_review_cards" and this is True: also
@@ -601,7 +601,8 @@ class AnnA:
                  sentencetransformers_device=None,
                  sentencetransformers_quantization="float32",
                  sentencetransformers_prompt="Specific topic of this anki flashcard: ",
-                 embed_model="BAAI/bge-m3",
+                 embed_model="jinaai/jina-colbert-v2",
+                 # embed_model="BAAI/bge-m3",
                  # embed_model="paraphrase-multilingual-mpnet-base-v2",
                  # left for legacy reason
                  ndim_reduc="auto",
