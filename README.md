@@ -60,7 +60,7 @@ Here are different ways of looking at what AnnA can do for you in a few words:
 * **What is the current status of this project?** I use it daily but am still working on the code. You can expect breaking. I intend to keep developing until I have no free time left. Take a look at the TODO list of the dev branch if you want to know what's in the works. When in doubt, open an issue.
 * **Do you mind if I open an issue?** Not at all! It is very much encouraged, even just for a typo. That will at least make me happy. Of course PR are always welcome too.
 * **Can this be made into an anki addon instead of a python script?** I have never packaged things into anki addons so I'm not so sure. I heard that packaging complex modules into anki is a pain, and cross platform will be an issue. If you'd like to make this a reality, show yourself by opening an issue! I would really like this to be implemented into anki, and the search function would be pretty nice :)
-* **What version of anki does this run on?** I've been using AnnA from anki 2.1.44 and am currently on 2.1.54 Compatibility relies heavily on anki-connect. Please tell me if you run into issues.
+* **What version of anki does this run on?** I've been using AnnA from anki 2.1.44 and am currently on 24.04. Please tell me if you run into issues.
 
 * **If I create a filtered deck using AnnA, how can I rebuild it?** You can't rebuilt it or empty it through anki directly as it would leave you with anki's order and not AnnA's. You have to delete the filtered deck then run the script. Hence, I suggest creating large filtered decks in advance. 
 * **I don't think the reviews I do on AnnA's filtered decks are saved, wtf?** It might be because you're using multiple device and are deleting the filtered deck on one of the device without syncing first.
@@ -89,6 +89,7 @@ Here are different ways of looking at what AnnA can do for you in a few words:
     * Either in a Python console : `from AnnA import * ; AnnA(YOUR_ARGUMENTS)`
     * Or directly in the terminal : `python3 AnnA.py --help` *(note that the terminal mode was added after the python console and might still contain error when parsing arguments)*
 * If you want to run AnnA on several decks in a row like I do, edit the file `utils/autorun_example.py`, move it one folder up then execute it with `python3 ./autorun.py`
+* *Note: some embedding models need a specific argument for sentence_transformers called `trust_remote_code`. To enable it, modify the start of your command like so: `ANNA_TRUST_REMOTE_CODE='anything' python [...args]`. You only need to do this once per model as it's only needed to download the weights of the embedding model.*
 * Open an issue telling me your remarks and suggestion
 
 ### Usage and arguments

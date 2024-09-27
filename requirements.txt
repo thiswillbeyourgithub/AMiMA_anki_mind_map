@@ -1,11 +1,13 @@
 plyer >= 2.1.0  # for notification, can help to install dbus-python too
 pyfiglet >= 1.0.2   # for banner
 prompt_toolkit >= 3.0.43  # for autocomplete prompt
-python_Levenshtein >= 0.25.0  # to correct for field mapping and note type spelling errors
+rapidfuzz >= 3.6.1  # to correct for field mapping and note type spelling errors
 beepy>=1.0.7  # make a beeping sound
 ankipandas>=0.3.15  # to load the anki collection
+py_ankiconnect  # DIY to talk to ankiconnect
 ftfy>=6.1.1
 fire>=0.5.0
+platformdirs >= 4.2.2
 
 # datascience and computation
 pandas == 1.5.3
@@ -19,7 +21,7 @@ tqdm >= 4.65.0
 nltk >= 3.8.1
 tokenizers >= 0.13.2
 transformers >= 4.37.2
-sentence_transformers >= 2.3.1
+sentence_transformers >= 2.7.0
 
 # 2D plot
 matplotlib>=3.7.1
