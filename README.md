@@ -89,6 +89,7 @@ Here are different ways of looking at what AnnA can do for you in a few words:
     * Either in a Python console : `from AnnA import * ; AnnA(YOUR_ARGUMENTS)`
     * Or directly in the terminal : `python3 AnnA.py --help` *(note that the terminal mode was added after the python console and might still contain error when parsing arguments)*
 * If you want to run AnnA on several decks in a row like I do, edit the file `utils/autorun_example.py`, move it one folder up then execute it with `python3 ./autorun.py`
+* *Note: some embedding models need a specific argument for sentence_transformers called `trust_remote_code`. To enable it, modify the start of your command like so: `ANNA_TRUST_REMOTE_CODE='anything' python [...args]`. You only need to do this once per model as it's only needed to download the weights of the embedding model.*
 * Open an issue telling me your remarks and suggestion
 
 ### Usage and arguments

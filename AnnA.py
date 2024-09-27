@@ -2200,9 +2200,17 @@ class AnnA:
                 memretr = self.memoize(retrieve_cache)
 
                 whi("Loading sentence transformer model")
+                if "ANNA_TRUST_REMOTE_CODE" in os.environ:
+                    red("trust_remote_code is set to True")
+                    trc = True
+                else:
+                    trc = False
+
                 model = SentenceTransformer(
                         self.embed_model,
-                        device=self.sentencetransformers_device)
+                        device=self.sentencetransformers_device,
+                        trust_remote_code=trc,
+                )
 
                 # create empty numpy array
                 t_vec = np.zeros(
