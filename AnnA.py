@@ -2215,6 +2215,33 @@ class AnnA:
                     model_kwargs={"torch_dtype": torch.float},  # otherwise some models crash when calling with precision
                 )
 
+                # embed something and test the vector is working and not 0
+                try:
+                    test_vec = model.encode(
+                        sentences=["This is a test for the embedding model."],
+                        show_progress_bar=False,
+                        output_value="sentence_embedding",
+                        convert_to_numpy=True,
+                        normalize_embeddings=False,
+                        batch_size=1,
+                        precision=self.sentencetransformers_precision,
+                        prompt=self.sentencetransformers_prompt,
+                    )
+                    test_vec2 = model.encode(
+                        sentences=["Sky is an english word."],
+                        show_progress_bar=False,
+                        output_value="sentence_embedding",
+                        convert_to_numpy=True,
+                        normalize_embeddings=False,
+                        batch_size=1,
+                        precision=self.sentencetransformers_precision,
+                        prompt=self.sentencetransformers_prompt,
+                    )
+                    assert not np.all(test_vec == 0), "The first test vector is full of zero"
+                    assert not np.all(test_vec2 == 0), "The first test vector is full of zero"
+                except Exception as e:
+                    raise Exception(f"Error when testing embedding model: '{e}'") from e
+
                 # create empty numpy array
                 t_vec = np.zeros(
                         (len(df.index), max(sencoder(["test"]).shape)
