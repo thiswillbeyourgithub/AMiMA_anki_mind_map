@@ -601,7 +601,8 @@ class AnnA:
                  sentencetransformers_device=None,
                  sentencetransformers_quantization="float32",
                  sentencetransformers_prompt="Specific topic of this anki flashcard: ",
-                 embed_model="jinaai/jina-colbert-v2",
+                 embed_model="jinaai/jina-embeddings-v3",
+                 #embed_model="jinaai/jina-colbert-v2",
                  # embed_model="BAAI/bge-m3",
                  # embed_model="paraphrase-multilingual-mpnet-base-v2",
                  # left for legacy reason
