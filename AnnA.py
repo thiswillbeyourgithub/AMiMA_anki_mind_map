@@ -434,6 +434,7 @@ class AnnA:
 
     --sentencetransformers_quantization: str, default "float32"
         None to use float32, either int8, uint8, binary, ubinary.
+        Not available for all embedding models.
 
     --sentencetransformers_prompt: str, default "Specific topic of this anki flashcard: "
         Prompt to use for the sentence transformers.
