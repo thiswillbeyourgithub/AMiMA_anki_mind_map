@@ -2212,6 +2212,7 @@ class AnnA:
                     self.embed_model,
                     device=self.sentencetransformers_device,
                     trust_remote_code=trc,
+                    model_kwargs={"torch_dtype": torch.float},  # otherwise some models crash when calling with precision
                 )
 
                 # create empty numpy array
