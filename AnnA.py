@@ -432,7 +432,7 @@ class AnnA:
         ignore stopwords and any TFIDF arguments used.
         Default to 'embeddings'.
 
-    --sentencetransformers_precision: str, default "float32"
+    --sentencetransformers_precision: str, default "binary"
         None to use float32, either int8, uint8, binary, ubinary.
         Not available for all embedding models.
 
@@ -600,7 +600,7 @@ class AnnA:
                  # vectorization:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
-                 sentencetransformers_precision="float32",
+                 sentencetransformers_precision="binary",
                  sentencetransformers_prompt="Specific topic of this anki flashcard: ",
                  embed_model="jinaai/jina-embeddings-v3",
                  #embed_model="jinaai/jina-colbert-v2",
