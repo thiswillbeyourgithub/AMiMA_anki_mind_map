@@ -2209,9 +2209,9 @@ class AnnA:
                     trc = False
 
                 model = SentenceTransformer(
-                        self.embed_model,
-                        device=self.sentencetransformers_device,
-                        trust_remote_code=trc,
+                    self.embed_model,
+                    device=self.sentencetransformers_device,
+                    trust_remote_code=trc,
                 )
 
                 # create empty numpy array
