@@ -22,6 +22,7 @@ nltk >= 3.8.1
 tokenizers >= 0.13.2
 transformers >= 4.37.2
 sentence_transformers >= 2.7.0
+flash_attn  # can speed up some models
 
 # 2D plot
 matplotlib>=3.7.1
