@@ -432,7 +432,7 @@ class AnnA:
         ignore stopwords and any TFIDF arguments used.
         Default to 'embeddings'.
 
-    --sentencetransformers_quantization: str, default "float32"
+    --sentencetransformers_precision: str, default "float32"
         None to use float32, either int8, uint8, binary, ubinary.
         Not available for all embedding models.
 
@@ -600,7 +600,7 @@ class AnnA:
                  # vectorization:
                  vectorizer="embeddings",
                  sentencetransformers_device=None,
-                 sentencetransformers_quantization="float32",
+                 sentencetransformers_precision="float32",
                  sentencetransformers_prompt="Specific topic of this anki flashcard: ",
                  embed_model="jinaai/jina-embeddings-v3",
                  #embed_model="jinaai/jina-colbert-v2",
@@ -747,8 +747,8 @@ class AnnA:
         assert sentencetransformers_device in [None, "cpu", "gpu", "cuda"], "Unexpected value for sentencetransformers_device"
         self.sentencetransformers_device = sentencetransformers_device
 
-        assert sentencetransformers_quantization in [None, "float32", "int8", "uint8", "binary", "ubinary"], "Unexpected value for sentencetransformers_quantization"
-        self.sentencetransformers_quantization = sentencetransformers_quantization
+        assert sentencetransformers_precision in [None, "float32", "int8", "uint8", "binary", "ubinary"], "Unexpected value for sentencetransformers_precision"
+        self.sentencetransformers_precision = sentencetransformers_precision
 
         self.sentencetransformers_prompt = sentencetransformers_prompt
 
@@ -2160,7 +2160,7 @@ class AnnA:
                             convert_to_numpy=True,
                             normalize_embeddings=False,
                             batch_size=1,
-                            precision=self.sentencetransformers_quantization,
+                            precision=self.sentencetransformers_precision,
                             prompt=self.sentencetransformers_prompt,
                             )
                         if vectors is None:
@@ -2223,7 +2223,7 @@ class AnnA:
                 vec_cache = self.cache_dir / "embeddings_cache"
                 vec_cache.mkdir(exist_ok=True)
                 prompt_hash = hasher(self.sentencetransformers_prompt)
-                cache_name = f"{self.embed_model}_Q{self.sentencetransformers_quantization}_{prompt_hash}"
+                cache_name = f"{self.embed_model}_Q{self.sentencetransformers_precision}_{prompt_hash}"
                 cache_name = cache_name.replace(" ", "_").replace("/", "_")
                 vec_cache = vec_cache / (cache_name)
                 vec_cache.mkdir(exist_ok=True)
